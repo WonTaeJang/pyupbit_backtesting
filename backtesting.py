@@ -34,5 +34,5 @@ result = df['open']
 
 print(len(result))
 print(df['open'][1])
-print(result.index[0])
-#df.to_excel("dd.xlsx")
+print(result.index[0]) 
+#df.to_excel("dd.xlsx1")
