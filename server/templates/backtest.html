@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<head>
+
+</head>
+<body>
+    hello world! {{name}}
+
+    <input type="button" id='btn1' value="test btn"/>
+</body>
+<script>
+    const request = new XMLHttpRequest();
+
+//    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); 
+    
+
+// 2. 요청 초기화 
+
+    var btn = document.getElementById('btn1').addEventListener("click", function(){
+        request.open('POST', '/test', true);
+        request.setRequestHeader('Content-type', 'application/json'); 
+        var jj ="{name:녹차, pricie:5000}"
+        console.log(jj);
+        request.send(JSON.stringify(jj));
+
+        // 4. onreadystatechage 이벤트리스너 등록 s
+        
+        request.onreadystatechange = function(event){ 
+            // 1) 데이터를 다 받았고, 2) 응답코드 200(성공)을 받았는지 체크 
+            if(request.readyState == 4 && request.status == 200){ 
+                // 응답받은 데이터 체크 
+                const responseData = request.responseText; 
+                console.log(responseData);
+            } 
+        }
+
+    });
+
+    
+
+
+</script>
