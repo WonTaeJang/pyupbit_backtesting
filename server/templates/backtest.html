@@ -14,11 +14,10 @@
     
 
 // 2. 요청 초기화 
-
     var btn = document.getElementById('btn1').addEventListener("click", function(){
-        request.open('POST', '/test', true);
+        request.open('POST', '/coin', true);
         request.setRequestHeader('Content-type', 'application/json'); 
-        var jj ="{name:녹차, pricie:5000}"
+        var jj ="{'name':'KRW-BTC', 'count':200, 'to':'20210301', 'K': 0.3}" // "KRW-BTC", 10, '20210301'
         console.log(jj);
         request.send(JSON.stringify(jj));
 
@@ -32,10 +31,6 @@
                 console.log(responseData);
             } 
         }
-
     });
-
-    
-
 
 </script>
