@@ -31,7 +31,9 @@ def post2(): # 경로에서 실행될 기능 선언
 
 @app.route('/')
 def index():
-    return render_template("backtest.html",name = 'won')
+    kr_trickers = backtesting.get_tickers()
+
+    return render_template("backtest.html",trickers = kr_trickers)
 
 if __name__ == "__main__": 
     app.run(host="127.0.0.1", port=9000, debug=True) # host주소와 port number 선언

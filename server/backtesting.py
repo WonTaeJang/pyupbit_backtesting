@@ -29,7 +29,7 @@ def upbit_backTesting(coin, range, day, K):
 
     # MDD 계산, 고통 지수
     #print("MDD(%): ", df['dd'].max())
-    #print(df)
+    print(df)
     #print(type(df))
 
     result = []
@@ -60,4 +60,7 @@ def strToJson(df):
     return json_val 
 
 
-#json1 = upbit_backTesting("KRW-BTC", 20, '20210301')
+#json1 = upbit_backTesting("KRW-BTC", 200, '20210921',0.3)
+
+def get_tickers():
+    return pyupbit.get_tickers(fiat="KRW")

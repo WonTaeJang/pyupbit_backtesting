@@ -1,33 +1,94 @@
 <!DOCTYPE html>
 <head>
-
+    <title>Cryptocurrency BackTesting</title>
 </head>
 <body>
-    hello world! {{name}}
+    <div>
+        name: <select id="select1" name="name" >
+            {% for tricker in trickers %}
+            <option value= "{{tricker}}">{{tricker}}</option>
+            {% endfor %}
+        </select>
+    </div>
 
-    <input type="button" id='btn1' value="test btn"/>
+    <div>
+        봉 단위: 
+        <select name= "unit" disabled>
+            <option value= "minute1">1분</option>
+            <option value= "minute3">3분</option>
+            <option value= "minute5">5분</option>
+            <option value= "minute10">10분</option>
+            <option value= "minute30">30분</option>
+            <option value= "minute60">60분</option>
+            <option selected value= "day">일</option>
+            <option value= "week">주</option>
+            <option value= "month">월</option>
+        </select>
+        <input type='date' id="date_start" value="2021-09-01">
+        <input type='date' id="date_end">
+    </div>
+
+    <div>
+        K:
+        <input id="setValue_K" type="text" value="0.5">
+    </div>
+
+    <div>
+        <input type="button" id='btn1' value="backtest start"/>
+    </div>
+
+    <div>
+        <label id="result_lb_1">NONE</label>
+    </div>
+
+
 </body>
 <script>
-    const request = new XMLHttpRequest();
+    // datetime setting
+    var m = new Date();
+    var max_date = m.getFullYear() + '-' + (m.getMonth() +1).toString().padStart(2,'0') + '-' + m.getDate().toString().padStart(2,'0');
+    document.getElementById('date_start').min = '2021-06-01'
+    document.getElementById('date_start').max = max_date
+    document.getElementById('date_end').min = '2021-01-01'
+    document.getElementById('date_end').max = max_date
+    document.getElementById('date_end').value = max_date
 
-//    request.setRequestHeader('Content-type', 'application/x-www-form-urlencoded'); 
-    
+
+    const request = new XMLHttpRequest();
 
 // 2. 요청 초기화 
     var btn = document.getElementById('btn1').addEventListener("click", function(){
         request.open('POST', '/coin', true);
         request.setRequestHeader('Content-type', 'application/json'); 
-        var jj ="{'name':'KRW-BTC', 'count':200, 'to':'20210301', 'K': 0.3}" // "KRW-BTC", 10, '20210301'
-        console.log(jj);
-        request.send(JSON.stringify(jj));
 
-        // 4. onreadystatechage 이벤트리스너 등록 s
+        // name
+        var coin_index = document.getElementById('select1').selectedIndex;
+        var coin_name = document.getElementById('select1').options[coin_index].value;
+        
+        // datetime
+        var start = new Date(document.getElementById('date_start').value)
+        var end = new Date(document.getElementById('date_end').value)
+
+        var elapsedMSec = end.getTime() - start.getTime(); 
+        var elapsedDay = ((elapsedMSec / 1000 / 60 / 60 / 24) + 1) ;
+
+        var toEnd = end.getFullYear() + (end.getMonth() + 1) + end.getDate();
+
+        // K
+        var K = document.getElementById('setValue_K').value;
+
+        var pyupbit_json ="{'name':'" + coin_name + "', 'count':" + elapsedDay + ", 'to':'" + toEnd + "', 'K': " + K + "}"; // "KRW-BTC", 10, '20210301'
+        console.log(pyupbit_json);
+        request.send(JSON.stringify(pyupbit_json));
+
+        // 4. onreadystatechage 이벤트리스너 등록 
         
         request.onreadystatechange = function(event){ 
             // 1) 데이터를 다 받았고, 2) 응답코드 200(성공)을 받았는지 체크 
             if(request.readyState == 4 && request.status == 200){ 
                 // 응답받은 데이터 체크 
                 const responseData = request.responseText; 
+                document.getElementById('result_lb_1').innerText = responseData;
                 console.log(responseData);
             } 
         }
