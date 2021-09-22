@@ -5,7 +5,7 @@
 
 </head>
 <body>
-
+    <h1>변동성 돌파전략 Back Testing (UPbit용)</h1>
     <div>
         투자 금액: 
         <input type="text" id="money"> 
@@ -45,11 +45,14 @@
         <input type="button" id='btn1' value="backtest start"/>
     </div>
 
-    <div>
-        <label id="result_lb_1">NONE</label>
+    <div id="result_div" style="visibility:hidden">
+        <p>기간:      <label id="result_lb_1"></label>~<label id="result_lb_6"></label></p>
+        <p>시작금액:    <label id="result_lb_2"></label>원</p>
+        <p>MDD:        <label id="result_lb_3"></label>%</p>
+        <p>누적 수익률: <label id="result_lb_4"></label>%</p>   
+        <p>손익평가:    <label id="result_lb_5"></label>원</p>
+        <p>원화거래 업비트 수수료 0.05%를 고려한 결과입니다.</p>
     </div>
-
-
 </body>
 <script>
     settings();

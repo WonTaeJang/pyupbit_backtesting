@@ -42,7 +42,7 @@ def upbit_backTesting(coin, range, day, K):
     return strToJson(df)
 
 def strToJson(df):
-    dict1 = {"test":[]}
+    dict1 = {"test":[], "MDD":""}
 
     for i in range(len(df)):
         temp = {}
@@ -52,8 +52,10 @@ def strToJson(df):
             value = str(df[j][i])
             temp[key] = value
         
-        temp['datatime'] = df.index[i]
+        temp['datetime'] = df.index[i]
         dict1['test'].append(temp)
+
+    dict1['MDD'] = df['dd'].max()
 
     #print(type(dict1))
     json_val = json.dumps(dict1, default=str)
