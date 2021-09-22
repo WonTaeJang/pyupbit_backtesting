@@ -1,8 +1,6 @@
-// datetime setting
-var pyupbit_result_list;
-
 function settings(){
     var m = new Date();
+    var pyupbit_result_list;
     var max_date = m.getFullYear() + '-' + (m.getMonth() + 1).toString().padStart(2, '0') + '-' + m.getDate().toString().padStart(2, '0');
     document.getElementById('date_start').min = '2021-06-01'
     document.getElementById('date_start').max = max_date
@@ -44,11 +42,34 @@ function settings(){
             if (request.readyState == 4 && request.status == 200) {
                 // 응답받은 데이터 체크 
 
-                pyupbit_result_list = request.responseText;
+                pyupbit_result_list = JSON.parse(request.responseText);
                 //const responseData = request.responseText;
-                //document.getElementById('result_lb_1').innerText = responseData;
-                console.log(pyupbit_result_list);
+                //document.getElementById('result_lb_1').innerText = pyupbit_result_list;
+
+                result_label(pyupbit_result_list);
+                //console.log(pyupbit_result_list);
             }
         }
     });
+}
+
+function result_label(pyupbit_result_list){
+    var investment = document.getElementById('money').value != ''? document.getElementById('money').value : 0;
+    var count = pyupbit_result_list.test.length;
+    var rate = (parseFloat(pyupbit_result_list.test[count-1].hpr) - 1) * 100;
+
+    document.getElementById('result_div').style.visibility = "visible";
+    // 테스팅 기간
+    document.getElementById('result_lb_1').innerText = document.getElementById('date_start').value;
+    document.getElementById('result_lb_6').innerText = document.getElementById('date_end').value;
+    // 시작금액
+    document.getElementById('result_lb_2').innerText = parseFloat(investment).toLocaleString();
+    // MDD
+    document.getElementById('result_lb_3').innerText = pyupbit_result_list.MDD;
+    // 누적 수익률
+    
+    document.getElementById('result_lb_4').innerText = rate;
+    // 손익평가
+
+    document.getElementById('result_lb_5').innerText = (parseFloat(investment)*parseFloat(pyupbit_result_list.test[count-1].hpr)).toLocaleString();
 }
