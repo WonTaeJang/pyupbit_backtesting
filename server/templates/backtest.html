@@ -2,7 +2,10 @@
 <head>
     <title>Cryptocurrency BackTesting</title>
     <script type = "text/javascript" src="{{ url_for('static', filename='js/backtest.js') }}"></script>
-
+    
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    <script type = "text/javascript" src="{{ url_for('static', filename='js/backtesting-chart.js') }}"></script>
 </head>
 <body>
     <h1>변동성 돌파전략 Back Testing (UPbit용)</h1>
@@ -52,9 +55,10 @@
         <p>누적 수익률: <label id="result_lb_4"></label>%</p>   
         <p>손익평가:    <label id="result_lb_5"></label>원</p>
         <p>원화거래 업비트 수수료 0.05%를 고려한 결과입니다.</p>
+
+        <canvas id="testChart" ></canvas>
     </div>
 </body>
 <script>
     settings();
-
 </script>

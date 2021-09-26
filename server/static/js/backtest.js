@@ -48,6 +48,13 @@ function settings(){
 
                 result_label(pyupbit_result_list);
                 //console.log(pyupbit_result_list);
+
+                // var myChart = new Chart(
+                //     document.getElementById('testChart'),
+                //     config
+                // );
+
+                chartjs_setting(pyupbit_result_list);
             }
         }
     });
