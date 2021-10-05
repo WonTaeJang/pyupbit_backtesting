@@ -1,15 +1,17 @@
-var hpr_Chart;
+var hpr_Chart, mdd_Chart;
 
 function chartjs_setting(pyList){
     var arr = [];
     var arr_hpr = [];
+    var arr_mdd = [];
 
     for (let i = 0; i < pyList["test"].length; i++) {
         arr.push(pyList["test"][i].datetime);
         arr_hpr.push(pyList["test"][i].hpr);
+        arr_mdd.push(pyList["test"][i].dd);
     }
 
-    const data = {
+    const hpr_data = {
         labels: arr,
         datasets: [{
             label: '변동성 돌파 전략 누적 수익률',
@@ -19,18 +21,26 @@ function chartjs_setting(pyList){
         }]
     };
 
-    const config = {
+    const mdd_data = {
+        labels: arr,
+        datasets: [{
+            label: '변동성 돌파 전략 MDD',
+            backgroundColor: 'rgb(131, 220, 183)',
+            borderColor: 'rgb(131, 220, 183)',
+            data: arr_mdd,
+        }]
+    };
+
+    const hpr_config = {
         type: 'line',
-        data: data,
-        options: {
-            borderColor: function(){
-                return 'rgb(255, 255, 132)';
-            }
-            // borderColor: function(context, options) {
-            //     var color = options.color; // resolve the value of another scriptable option: 'red', 'blue' or 'green'
-            //     return Chart.helpers.color(color).lighten(0.2);
-            // }
-        }
+        data: hpr_data,
+        options: {}
+    };
+
+    const mdd_config = {
+        type: 'bar',
+        data: mdd_data,
+        options: {}
     };
 
 
@@ -38,11 +48,19 @@ function chartjs_setting(pyList){
     if(hpr_Chart!=null){
         hpr_Chart.destroy();
     }
-    else{
-        hpr_Chart = new Chart(
-            document.getElementById('testChart'),
-            config
-        );
+
+    if(mdd_Chart!=null){
+        mdd_Chart.destroy();
     }
+   
+    hpr_Chart = new Chart(
+        document.getElementById('hprChart'),
+        hpr_config
+    );
+
+    mdd_Chart = new Chart(
+        document.getElementById('mddChart'),
+        mdd_config
+    )
     
 }
