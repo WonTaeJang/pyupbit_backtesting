@@ -1,64 +1,78 @@
 <!DOCTYPE html>
+
 <head>
     <title>Cryptocurrency BackTesting</title>
-    <script type = "text/javascript" src="{{ url_for('static', filename='js/backtest.js') }}"></script>
-    
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/backtest.js') }}"></script>
+    <script type="text/javascript" src="{{ url_for('static', filename='js/backtesting-chart.js') }}"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
     
-    <script type = "text/javascript" src="{{ url_for('static', filename='js/backtesting-chart.js') }}"></script>
 </head>
+
 <body>
-    <h1>변동성 돌파전략 Back Testing (UPbit용)</h1>
-    <div>
-        투자 금액: 
-        <input type="text" id="money"> 
-        원
-    </div>
-    <div>
-        name: <select id="select1" name="name" >
-            {% for tricker in trickers %}
-            <option value= "{{tricker}}">{{tricker}}</option>
-            {% endfor %}
-        </select>
+
+    <div class="container">
+        <h2>변동성 돌파전략 Back Testing (UPbit용)</h2>
+
+        <div class="well well-sm">
+            <label>투자 금액:</label>
+            <input type="text" id="money">
+            <label>원</label>
+        </div>
+
+        <div class="well">
+            <div class="form-group">
+                <label>KRW-Coin: </label>
+                
+                <select class="form-control" id="select1" name="name">
+                    {% for tricker in trickers %}
+                    <option value="{{tricker}}">{{tricker}}</option>
+                    {% endfor %}
+                </select>
+            </div>
+    
+            <div class="form-group">
+                <label>봉 단위: </label>
+                <select class="form-control" name="unit" disabled>
+                    <option value="minute1">1분</option>
+                    <option value="minute3">3분</option>
+                    <option value="minute5">5분</option>
+                    <option value="minute10">10분</option>
+                    <option value="minute30">30분</option>
+                    <option value="minute60">60분</option>
+                    <option selected value="day">일</option>
+                    <option value="week">주</option>
+                    <option value="month">월</option>
+                </select>
+                <input class="form-control" type='date' id="date_start" value="2021-09-01">
+                <input class="form-control" type='date' id="date_end">
+            </div>
+    
+            <div>
+                K:
+                <input id="setValue_K" type="text" value="0.5">
+            </div>
+        </div>
+        
+
+        <div class="well">
+            <input class="btn btn-success" type="button" id='btn1' value="backtest start" />
+        </div>
+
+        <div id="result_div" style="visibility:hidden" class="well">
+            <p>기간: <label id="result_lb_1"></label>~<label id="result_lb_6"></label></p>
+            <p>시작금액: <label id="result_lb_2"></label>원</p>
+            <p>MDD: <label id="result_lb_3"></label>%</p>
+            <p>누적 수익률: <label id="result_lb_4"></label>%</p>
+            <p>손익평가: <label id="result_lb_5"></label>원</p>
+            <p>원화거래 업비트 수수료 0.05%를 고려한 결과입니다.</p>
+
+            <canvas id="hprChart"></canvas>
+            <canvas id="mddChart"></canvas>
+        </div>
     </div>
 
-    <div>
-        봉 단위: 
-        <select name= "unit" disabled>
-            <option value= "minute1">1분</option>
-            <option value= "minute3">3분</option>
-            <option value= "minute5">5분</option>
-            <option value= "minute10">10분</option>
-            <option value= "minute30">30분</option>
-            <option value= "minute60">60분</option>
-            <option selected value= "day">일</option>
-            <option value= "week">주</option>
-            <option value= "month">월</option>
-        </select>
-        <input type='date' id="date_start" value="2021-09-01">
-        <input type='date' id="date_end">
-    </div>
-
-    <div>
-        K:
-        <input id="setValue_K" type="text" value="0.5">
-    </div>
-
-    <div>
-        <input type="button" id='btn1' value="backtest start"/>
-    </div>
-
-    <div id="result_div" style="visibility:hidden">
-        <p>기간:      <label id="result_lb_1"></label>~<label id="result_lb_6"></label></p>
-        <p>시작금액:    <label id="result_lb_2"></label>원</p>
-        <p>MDD:        <label id="result_lb_3"></label>%</p>
-        <p>누적 수익률: <label id="result_lb_4"></label>%</p>   
-        <p>손익평가:    <label id="result_lb_5"></label>원</p>
-        <p>원화거래 업비트 수수료 0.05%를 고려한 결과입니다.</p>
-
-        <canvas id="hprChart" ></canvas>
-        <canvas id="mddChart" ></canvas>
-    </div>
 </body>
 <script>
     settings();
