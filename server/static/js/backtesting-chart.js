@@ -64,3 +64,6 @@ function chartjs_setting(pyList){
     )
     
 }
+
+
+// https://www.chartjs.org/chartjs-chart-financial/ candle bar 

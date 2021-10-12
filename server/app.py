@@ -35,8 +35,12 @@ def index():
 
     return render_template("backtest.html",trickers = kr_trickers)
 
+@app.route('/nondata')
+def index2():
+    return render_template("backtest.html")
+
 if __name__ == "__main__": 
-    app.run(host="127.0.0.1", port=9000, debug=True) # host주소와 port number 선언
+    app.run(host="127.0.0.1", port=9001, debug=True) # host주소와 port number 선언
 
 
 #http://hleecaster.com/flask-form/
