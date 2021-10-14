@@ -11,7 +11,6 @@
 </head>
 
 <body>
-
     <div class="container">
         <h2>변동성 돌파전략 Back Testing (UPbit용)</h2>
 
@@ -20,7 +19,7 @@
             <input type="text" id="money">
             <label>원</label>
         </div>
-
+        
         <div class="well">
             <div class="form-group">
                 <label>KRW-Coin: </label>
@@ -47,19 +46,20 @@
                 </select>
             </div>
 
-            <div class="form-row">
-                <div class="col">
-                    <input class="form-control" type='date' id="date_start" value="2021-09-01">
-                </div>
-                <div class="col">
-                    <input class="form-control" type='date' id="date_end">
-                </div>
+            <div class="row">
+              <div class="col-sm-6">
+                <input class="form-control" type='date' id="date_start" value="2021-09-01">
+              </div>
+              <div class="col-sm-6">
+                <input class="form-control" type='date' id="date_end">
+              </div>
+              <p></p>
             </div>
 
-
-            <div>
-                K:
-                <input id="setValue_K" type="text" value="0.5">
+            <div class="form-group">
+                <label>K: </label>
+                <input class="form-control" id="setValue_K" type="text" value="0.5">
+                
             </div>
         </div>
         
