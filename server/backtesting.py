@@ -2,12 +2,19 @@ import pyupbit
 import numpy as np
 import json
 
-# upbit_backTesting("KRW-BTC", 10, '20210301')
-def upbit_backTesting(coin, range, day, K):
+# upbit_backTesting("KRW-BTC", 10, '20210301','0.32')
+
+
+# coin: 종목
+# range: 조회 개수
+# day: 조회 끝나는 일
+# _interval: 조회 단위 ('day', 'minute' ,'week')
+ 
+def upbit_backTesting(coin, range, day, K, _interval):
     k = K
 
     # OHLCV (open, high, low, close, volume) 당일 시가, 고가, 저가, 종가, 거래량 
-    df = pyupbit.get_ohlcv(coin, count = range, period=1, to=day)
+    df = pyupbit.get_ohlcv(coin, count = range, period=1, to=day, interval=_interval)
 
     # 변동폭 * k 계산, (고가 - 저가) * k값
     df['range'] = (df['high'] - df['low']) * k
@@ -62,7 +69,7 @@ def strToJson(df):
     return json_val 
 
 
-#json1 = upbit_backTesting("KRW-BTC", 200, '20210921',0.3)
+#json1 = upbit_backTesting("KRW-BTC", 10, '20210301',0.3,'day')
 
 def get_tickers():
     return pyupbit.get_tickers(fiat="KRW")
