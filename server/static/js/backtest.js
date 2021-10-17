@@ -30,8 +30,12 @@ function settings(){
     
         // K
         var K = document.getElementById('setValue_K').value;
+
+        // interval
+        var selected_index = document.getElementById('interval').selectedIndex;
+        var interval = document.getElementById('interval').options[selected_index].value;
     
-        var pyupbit_json = "{'name':'" + coin_name + "', 'count':" + elapsedDay + ", 'to':'" + toEnd + "', 'K': " + K + "}"; // "KRW-BTC", 10, '20210301'
+        var pyupbit_json = "{'name':'" + coin_name + "', 'count':" + elapsedDay + ", 'to':'" + toEnd + "', 'K': " + K + ", 'interval': '" + interval +"'}"; // "KRW-BTC", 10, '20210301'
         console.log(pyupbit_json);
         request.send(JSON.stringify(pyupbit_json));
     

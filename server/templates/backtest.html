@@ -2,12 +2,15 @@
 
 <head>
     <title>Cryptocurrency BackTesting</title>
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    
+    
     <script type="text/javascript" src="{{ url_for('static', filename='js/backtest.js') }}"></script>
     <script type="text/javascript" src="{{ url_for('static', filename='js/backtesting-chart.js') }}"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css">
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
-    
 </head>
 
 <body>
@@ -33,22 +36,31 @@
     
             <div class="form-group">
                 <label>봉 단위: </label>
-                <select class="form-control" name="unit" disabled>
-                    <option value="minute1">1분</option>
-                    <option value="minute3">3분</option>
-                    <option value="minute5">5분</option>
-                    <option value="minute10">10분</option>
-                    <option value="minute30">30분</option>
-                    <option value="minute60">60분</option>
-                    <option selected value="day">일</option>
-                    <option value="week">주</option>
-                    <option value="month">월</option>
+                <select id='interval' class="form-control" name="unit">
+                    <optgroup label="minute">
+                        <option value="minute1">1분</option>
+                        <option value="minute3">3분</option>
+                        <option value="minute5">5분</option>
+                        <option value="minute10">10분</option>
+                        <option value="minute30">30분</option>
+                        <option value="minute60">60분</option>
+                    </optgroup>
+                    <optgroup label="day">
+                        <option selected value="day">일</option>
+                    </optgroup>
+                    <optgroup label="week">
+                        <option value="week">주</option>
+                    </optgroup>
+                    <optgroup label="month">
+                        <option value="month">월</option>
+                    </optgroup>
                 </select>
             </div>
 
             <div class="row">
               <div class="col-sm-6">
                 <input class="form-control" type='date' id="date_start" value="2021-09-01">
+                
               </div>
               <div class="col-sm-6">
                 <input class="form-control" type='date' id="date_end">
@@ -69,6 +81,7 @@
         </div>
 
         <div id="result_div" style="visibility:hidden" class="well">
+            <h2>Result</h2>
             <p>기간: <label id="result_lb_1"></label>~<label id="result_lb_6"></label></p>
             <p>시작금액: <label id="result_lb_2"></label>원</p>
             <p>MDD: <label id="result_lb_3"></label>%</p>

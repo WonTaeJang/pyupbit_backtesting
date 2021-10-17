@@ -14,7 +14,6 @@ def post(): # 경로에서 실행될 기능 선언
 
 @app.route("/coin", methods=['POST']) #flask 웹 페이지 경로 
 def post2(): # 경로에서 실행될 기능 선언 
-
     data = eval(request.get_json())
     #print(data)
 
@@ -22,8 +21,9 @@ def post2(): # 경로에서 실행될 기능 선언
     count = data['count']
     to = data['to']
     K = data['K']
+    _interval = data['interval']
 
-    json_val = backtesting.upbit_backTesting(name, count, to, K)
+    json_val = backtesting.upbit_backTesting(name, count, to, K, _interval)
 
    
     print(json_val)
