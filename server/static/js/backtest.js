@@ -19,21 +19,34 @@ function settings(){
         var coin_index = document.getElementById('select1').selectedIndex;
         var coin_name = document.getElementById('select1').options[coin_index].value;
     
+        // interval
+        var selected_index = document.getElementById('interval').selectedIndex;
+        var interval = document.getElementById('interval').options[selected_index].value;
+
         // datetime
-        var start = new Date(document.getElementById('date_start').value)
+        
         var end = new Date(document.getElementById('date_end').value)
-    
-        var elapsedMSec = end.getTime() - start.getTime();
-        var elapsedDay = ((elapsedMSec / 1000 / 60 / 60 / 24) + 1);
-    
         var toEnd = end.getFullYear() + (end.getMonth() + 1) + end.getDate();
+    
+        // start는 day일때 날짜로 취급하고 그외는 count
+        var start, elapsedMSec, elapsedDay;
+
+        if(interval == 'day')
+        {
+            start = new Date(document.getElementById('date_start').value)
+            elapsedMSec = end.getTime() - start.getTime();
+            elapsedDay = ((elapsedMSec / 1000 / 60 / 60 / 24) + 1);
+        }
+        else
+        {
+            var coin_range_index = document.getElementById('coin_range').selectedIndex;
+            var _range =  document.getElementById('coin_range').options[coin_range_index].value;
+            elapsedDay = _range;
+        }
     
         // K
         var K = document.getElementById('setValue_K').value;
 
-        // interval
-        var selected_index = document.getElementById('interval').selectedIndex;
-        var interval = document.getElementById('interval').options[selected_index].value;
     
         var pyupbit_json = "{'name':'" + coin_name + "', 'count':" + elapsedDay + ", 'to':'" + toEnd + "', 'K': " + K + ", 'interval': '" + interval +"'}"; // "KRW-BTC", 10, '20210301'
         console.log(pyupbit_json);
@@ -60,6 +73,22 @@ function settings(){
 
                 chartjs_setting(pyupbit_result_list);
             }
+        }
+    });
+
+    // interval의 case에 따라서 coin_range tag 변경됨
+    document.getElementById('interval').addEventListener("change", function(){
+        var selected_index = document.getElementById('interval').selectedIndex;
+        var interval = document.getElementById('interval').options[selected_index].value;
+
+        if(interval != "day"){
+            document.getElementById('date_start').style.display = 'none';
+            document.getElementById('coin_range').style.display = '';
+        }
+        else
+        {
+            document.getElementById('date_start').style.display = '';
+            document.getElementById('coin_range').style.display = 'none';
         }
     });
 }
