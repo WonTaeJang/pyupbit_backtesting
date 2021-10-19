@@ -10,7 +10,7 @@ function settings(){
     
     const request = new XMLHttpRequest();
     
-    // 2. 요청 초기화 
+    // 요청 초기화 
     document.getElementById('btn1').addEventListener("click", function () {
         request.open('POST', '/coin', true);
         request.setRequestHeader('Content-type', 'application/json');
@@ -53,7 +53,6 @@ function settings(){
         request.send(JSON.stringify(pyupbit_json));
     
         // 4. onreadystatechage 이벤트리스너 등록 
-    
         request.onreadystatechange = function (event) {
             // 1) 데이터를 다 받았고, 2) 응답코드 200(성공)을 받았는지 체크 
             if (request.readyState == 4 && request.status == 200) {
@@ -64,12 +63,6 @@ function settings(){
                 //document.getElementById('result_lb_1').innerText = pyupbit_result_list;
 
                 result_label(pyupbit_result_list);
-                //console.log(pyupbit_result_list);
-
-                // var myChart = new Chart(
-                //     document.getElementById('testChart'),
-                //     config
-                // );
 
                 chartjs_setting(pyupbit_result_list);
             }
@@ -94,22 +87,57 @@ function settings(){
 }
 
 function result_label(pyupbit_result_list){
-    var investment = document.getElementById('money').value != ''? document.getElementById('money').value : 0;
+    var investment =  document.getElementById('money').value != ''? document.getElementById('money').value.replace(/,/gi,'') : 0;    // 정규식으로 해야지 replaceAll이 된다.
+
     var count = pyupbit_result_list.test.length;
     var rate = (parseFloat(pyupbit_result_list.test[count-1].hpr) - 1) * 100;
 
     document.getElementById('result_div').style.visibility = "visible";
+
     // 테스팅 기간
     document.getElementById('result_lb_1').innerText = document.getElementById('date_start').value;
     document.getElementById('result_lb_6').innerText = document.getElementById('date_end').value;
+
     // 시작금액
     document.getElementById('result_lb_2').innerText = parseFloat(investment).toLocaleString();
+
     // MDD
     document.getElementById('result_lb_3').innerText = pyupbit_result_list.MDD;
-    // 누적 수익률
-    
-    document.getElementById('result_lb_4').innerText = rate;
-    // 손익평가
 
-    document.getElementById('result_lb_5').innerText = (parseFloat(investment)*parseFloat(pyupbit_result_list.test[count-1].hpr)).toLocaleString();
+    // 누적 수익률
+    var income_hpr =  document.getElementById('result_lb_4');
+    income_hpr.innerText = rate;
+
+    // 손익평가
+    var income_money = document.getElementById('result_lb_5');
+    income_money.innerText = (parseFloat(investment)*parseFloat(pyupbit_result_list.test[count-1].hpr)).toLocaleString();
+
+    if(income_hpr.innerText.toString().indexOf('-') == '-1')
+    {
+        // plus
+        income_hpr.style.color = "blue";
+        income_money.style.color = "blue";
+    }
+    else
+    {
+        // minus
+        income_hpr.style.color = "red";
+        income_money.style.color = "red";
+    }
+
+}
+
+// 콤마 처리
+function inputNumberFormat(obj) {
+    obj.value = comma(uncomma(obj.value));
+}
+
+function comma(str) {
+    str = String(str);
+    return str.replace(/(\d)(?=(?:\d{3})+(?!\d))/g, '$1,');
+}
+
+function uncomma(str) {
+    str = String(str);
+    return str.replace(/[^\d]+/g, '');
 }
