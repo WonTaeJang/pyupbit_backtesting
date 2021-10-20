@@ -115,14 +115,14 @@ function result_label(pyupbit_result_list){
     if(income_hpr.innerText.toString().indexOf('-') == '-1')
     {
         // plus
-        income_hpr.style.color = "blue";
-        income_money.style.color = "blue";
+        income_hpr.style.color = "red";
+        income_money.style.color = "red";
     }
     else
     {
         // minus
-        income_hpr.style.color = "red";
-        income_money.style.color = "red";
+        income_hpr.style.color = "blue";
+        income_money.style.color = "blue";
     }
 
 }

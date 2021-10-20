@@ -59,7 +59,9 @@ def strToJson(df):
             value = str(df[j][i])
             temp[key] = value
         
-        temp['datetime'] = df.index[i]
+        strr = df.index[i]
+        temp['datetime'] = str(strr)[5:-3]
+        
         dict1['test'].append(temp)
 
     dict1['MDD'] = df['dd'].max()
