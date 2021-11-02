@@ -2,9 +2,9 @@ function settings(){
     var m = new Date();
     var pyupbit_result_list;
     var max_date = m.getFullYear() + '-' + (m.getMonth() + 1).toString().padStart(2, '0') + '-' + m.getDate().toString().padStart(2, '0');
-    document.getElementById('date_start').min = '2021-06-01'
+    document.getElementById('date_start').min = '2021-03-01'
     document.getElementById('date_start').max = max_date
-    document.getElementById('date_end').min = '2021-06-01'
+    document.getElementById('date_end').min = '2021-03-01'
     document.getElementById('date_end').max = max_date
     document.getElementById('date_end').value = max_date
     
@@ -16,8 +16,7 @@ function settings(){
         request.setRequestHeader('Content-type', 'application/json');
     
         // name
-        var coin_index = document.getElementById('select1').selectedIndex;
-        var coin_name = document.getElementById('select1').options[coin_index].value;
+        var coin_name = document.getElementById("coin_text").value
     
         // interval
         var selected_index = document.getElementById('interval').selectedIndex;
@@ -83,6 +82,14 @@ function settings(){
             document.getElementById('date_start').style.display = '';
             document.getElementById('coin_range').style.display = 'none';
         }
+    });
+
+    document.getElementById('coin_text').addEventListener("change", function(){
+        if(document.getElementById('coin_text').value == "")
+        {
+            document.getElementById('coin_text').value = "KRW-";
+        }
+
     });
 }
 
