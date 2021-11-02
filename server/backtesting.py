@@ -36,7 +36,7 @@ def upbit_backTesting(coin, range, day, K, _interval):
 
     # MDD 계산, 고통 지수
     #print("MDD(%): ", df['dd'].max())
-    print(df)
+    #print(df)
     #print(type(df))
 
     result = []
