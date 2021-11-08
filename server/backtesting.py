@@ -10,16 +10,22 @@ import json
 # day: 조회 끝나는 일
 # _interval: 조회 단위 ('day', 'minute' ,'week')
  
+# 변동성 돌파전략
+# 오늘 시가: 09:00, 오늘 종가: 08:59
+# 변동폭(어제 고가 - 어제 저가) * K + 오늘 시가 를 매수 타이밍으로 보고 다음날 08:59(종가)에 매도하는 전략
+
 def upbit_backTesting(coin, range, day, K, _interval):
     k = K
-
+    
     # OHLCV (open, high, low, close, volume) 당일 시가, 고가, 저가, 종가, 거래량 
     df = pyupbit.get_ohlcv(coin, count = range, period=1, to=day, interval=_interval)
 
     # 변동폭 * k 계산, (고가 - 저가) * k값
+    
     df['range'] = (df['high'] - df['low']) * k
 
     # target(매수가), range 컬럼을 한칸씩 밑으로 내림(.shift(1))
+    # 어제의 고가 - 저가 (변동폭) * K 한 값 = 매수가 // 매수가 이상이면 매수를 진행한다.
     df['target'] = df['open'] + df['range'].shift(1)
 
     fee = 0.0005
@@ -75,3 +81,25 @@ def strToJson(df):
 
 def get_tickers():
     return pyupbit.get_tickers(fiat="KRW")
+
+
+# 가장 좋은 k값 구하기
+def get_best_k(coin, range, day, k, _interval):
+    for k in np.arange(0.1, 1.0, 0.1):
+        ror = get_ror(coin, range, day, k, _interval)
+        print("%.1f %f" % (k, ror))
+
+def get_ror(coin, range, day, k, _interval):
+    df = pyupbit.get_ohlcv(coin, count = range, period=1, to=day, interval=_interval)
+    df['range'] = (df['high'] - df['low']) * k
+    df['target'] = df['open'] + df['range'].shift(1)
+ 
+    fee = 0.0005
+    df['ror'] = np.where(df['high'] > df['target'],df['close'] / df['target'] - fee, 1)
+ 
+    print(df)
+
+    ror = df['ror'].cumprod()[-2]
+    return ror
+
+#json1 = get_best_k("KRW-BTC", 10, '20211108',0.3,'day')
