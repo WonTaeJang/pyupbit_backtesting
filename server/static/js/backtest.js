@@ -25,9 +25,12 @@ function settings(){
         // datetime
         
         var end = new Date(document.getElementById('date_end').value)
-        var toEnd = end.getFullYear() + (end.getMonth() + 1) + end.getDate();
-    
+        
+        var toEnd = end.getFullYear().toString().padStart(4,'0');
+        toEnd += (end.getMonth() + 1).toString().padStart(2,'0'); 
+        toEnd += end.getDate().toString().padStart(2,'0');
         // start는 day일때 날짜로 취급하고 그외는 count
+
         var start, elapsedMSec, elapsedDay;
 
         if(interval == 'day')
