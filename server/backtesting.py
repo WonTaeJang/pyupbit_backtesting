@@ -1,6 +1,7 @@
 import pyupbit
 import numpy as np
 import json
+import time
 
 # upbit_backTesting("KRW-BTC", 10, '20210301','0.32')
 
@@ -84,10 +85,33 @@ def get_tickers():
 
 
 # 가장 좋은 k값 구하기
-def get_best_k(coin, range, day, k, _interval):
+def get_best_k(coin, range, day, _interval):
+    best_ror = 0
+    best_k = 0
+
+    # 소수점 첫번째 자리 K 값 구하기
     for k in np.arange(0.1, 1.0, 0.1):
         ror = get_ror(coin, range, day, k, _interval)
-        print("%.1f %f" % (k, ror))
+        #print("%.1f %f" % (k, ror))
+
+        if best_ror < ror:
+            best_ror = ror
+            best_k = k
+
+    print(best_k, best_ror)    
+
+    time.sleep(5)
+
+    for k in np.arange(best_k, (best_k + 0.09), 0.01):
+        temp_k = round(k,3)
+        ror2 = get_ror(coin, range, day, temp_k, _interval)
+
+        if best_ror < ror2:
+            best_ror = ror2
+            best_k = temp_k
+    
+    print(best_k, best_ror) 
+#        print("%.1f %f" % (k, ror))
 
 def get_ror(coin, range, day, k, _interval):
     df = pyupbit.get_ohlcv(coin, count = range, period=1, to=day, interval=_interval)
@@ -95,11 +119,13 @@ def get_ror(coin, range, day, k, _interval):
     df['target'] = df['open'] + df['range'].shift(1)
  
     fee = 0.0005
-    df['ror'] = np.where(df['high'] > df['target'],df['close'] / df['target'] - fee, 1)
+    df['ror'] = np.where(df['high'] > df['target'],
+                        df['close'] / df['target'] - fee,
+                        1)
  
-    print(df)
+    #print(df)
 
     ror = df['ror'].cumprod()[-2]
     return ror
 
-#json1 = get_best_k("KRW-BTC", 10, '20211108',0.3,'day')
+json1 = get_best_k("KRW-BTC", 100, '20211108','day')
