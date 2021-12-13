@@ -25,7 +25,7 @@ pyupbit API를 활용한 백테스팅 페이지 (app.py)
 > 투자금액등 설정
 
 ![image](https://user-images.githubusercontent.com/46809276/145782435-b293cd08-90a6-4aa3-8971-60a0adeae987.png)
-> 결과값과 차트정보 출력
+> 결과값과 누적수익률, MDD 정보 차트로 출력
 
 # Reference
 [유튜브 조코딩](https://youtu.be/WgXOFtDD6XU)
